@@ -22,6 +22,7 @@ RUN sudo apt install git -y
 RUN sudo apt install libncurses5 -y
 RUN sudo apt install wget -y
 RUN sudo apt install curl -y
+RUN sudo apt install lsof -y
 
 RUN sudo wget -O mxpy-up.py https://raw.githubusercontent.com/multiversx/mx-sdk-py-cli/main/mxpy-up.py
 RUN python3 mxpy-up.py --not-interactive
