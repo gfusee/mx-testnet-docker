@@ -52,8 +52,3 @@ RUN mxpy testnet prerequisites
 
 RUN mxpy config set chainID local-testnet
 RUN mxpy config set proxy http://localhost:7950
-
-COPY run.sh .
-RUN sudo chmod +x run.sh
-
-CMD ./run.sh
