@@ -27,11 +27,6 @@ jobs:
       # This is used to complete the identity challenge
       # with sigstore/fulcio when running outside of PRs.
       id-token: write
-    strategy:
-      matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
 
     steps:
       - name: Checkout repository
@@ -70,7 +65,6 @@ jobs:
 
       # Workaround for sudo "effective uid is not 0" error for ARM64 arch
       - name: ARM64 Sudo Workaround
-        if: matrix.platform == 'linux/arm64'
         run: docker run --privileged multiarch/qemu-user-static:latest --reset -p yes --credential yes
 
       # Build and push Docker image with Buildx (don't push on PR)
@@ -80,7 +74,7 @@ jobs:
         uses: docker/build-push-action@ac9327eae2b366085ac7f6a2d02df8aa8ead720a
         with:
           context: .
-          platforms: ${{ matrix.platform }}
+          platforms: linux/amd64,linux/arm64
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
