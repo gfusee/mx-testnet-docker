@@ -68,6 +68,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      # Workaround for sudo "effective uid is not 0" error for ARM64 arch
+      - name: ARM64 Sudo Workaround
+        if: matrix.platform == 'linux/arm64'
+        run: docker run --privileged multiarch/qemu-user-static:latest --reset -p yes --credential yes
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
